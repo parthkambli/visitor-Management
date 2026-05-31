@@ -1,3 +1,152 @@
+// import {
+//   Search,
+//   Eye,
+// } from "lucide-react";
+
+// import { useNavigate } from "react-router-dom";
+
+// import Table from "../components/ui/Table";
+// import Badge from "../components/ui/Badge";
+// import Input from "../components/ui/Input";
+
+// import mockVisitors from "../data/mockVisitors";
+// import mockVisits from "../data/mockVisits";
+
+// function Visits() {
+//   const navigate = useNavigate();
+
+//   const visits = mockVisits.map((visit) => {
+//     const visitor = mockVisitors.find(
+//       (v) => v.id === visit.visitorId
+//     );
+
+//     return {
+//       ...visit,
+//       visitorName: visitor?.name,
+//       company: visitor?.company,
+//     };
+//   });
+
+//   const columns = [
+//     {
+//       title: "Visitor",
+//       key: "visitorName",
+//     },
+
+//     {
+//       title: "Company",
+//       key: "company",
+//     },
+
+//     {
+//       title: "Purpose",
+//       key: "purpose",
+//     },
+
+//     {
+//       title: "Host",
+//       key: "host",
+//     },
+
+//     {
+//       title: "Check In",
+//       key: "checkIn",
+//     },
+
+//     {
+//       title: "Status",
+//       key: "status",
+
+//       render: (row) => {
+//         const variantMap = {
+//           "Checked In": "success",
+//           "Checked Out": "info",
+//           Pending: "warning",
+//         };
+
+//         return (
+//           <Badge
+//             variant={variantMap[row.status]}
+//           >
+//             {row.status}
+//           </Badge>
+//         );
+//       },
+//     },
+
+//     {
+//       title: "Actions",
+//       key: "actions",
+
+//       render: (row) => (
+//         <button
+//           onClick={() =>
+//             navigate(`/visitors/${row.visitorId}`)
+//           }
+//           className="p-2 rounded-lg hover:bg-gray-100"
+//         >
+//           <Eye size={18} />
+//         </button>
+//       ),
+//     },
+//   ];
+
+//   return (
+//     <div>
+
+//       <div className="mb-6">
+
+//         <h1 className="text-3xl font-bold">
+//           Visits
+//         </h1>
+
+//         <p className="text-gray-500 mt-1">
+//           Track all visitor entries and exits
+//         </p>
+
+//       </div>
+
+//       <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+
+//         <div className="relative w-80">
+
+//           <Search
+//             size={18}
+//             className="absolute left-3 top-3.5 text-gray-400"
+//           />
+
+//           <Input
+//             placeholder="Search visits..."
+//             className="pl-10"
+//           />
+
+//         </div>
+
+//       </div>
+
+//       <Table
+//         columns={columns}
+//         data={visits}
+//       />
+
+//     </div>
+//   );
+// }
+
+// export default Visits;
+
+
+
+
+
+
+
+
+
+
+
+
+
 import {
   Search,
   Eye,
@@ -6,7 +155,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import Table from "../components/ui/Table";
-import Badge from "../components/ui/Badge";
 import Input from "../components/ui/Input";
 
 import mockVisitors from "../data/mockVisitors";
@@ -22,56 +170,51 @@ function Visits() {
 
     return {
       ...visit,
+
       visitorName: visitor?.name,
-      company: visitor?.company,
+
+      mobileNumber:
+        visitor?.mobile,
+
+      photo:
+        visitor?.photo,
     };
   });
 
   const columns = [
     {
-      title: "Visitor",
+      title: "Pass ID",
+      key: "passId",
+    },
+
+    {
+      title: "Visitor Name",
       key: "visitorName",
     },
 
     {
-      title: "Company",
-      key: "company",
+      title: "Mobile Number",
+      key: "mobileNumber",
     },
 
     {
-      title: "Purpose",
-      key: "purpose",
+      title: "Employee To Meet",
+      key: "employeeToMeet",
     },
 
     {
-      title: "Host",
-      key: "host",
+      title: "Visit Date",
+      key: "visitDate",
     },
 
     {
-      title: "Check In",
-      key: "checkIn",
+      title: "Visit Time",
+      key: "visitTime",
     },
 
     {
-      title: "Status",
-      key: "status",
-
-      render: (row) => {
-        const variantMap = {
-          "Checked In": "success",
-          "Checked Out": "info",
-          Pending: "warning",
-        };
-
-        return (
-          <Badge
-            variant={variantMap[row.status]}
-          >
-            {row.status}
-          </Badge>
-        );
-      },
+      title: "Generated At",
+      key: "createdAt",
     },
 
     {
@@ -81,7 +224,7 @@ function Visits() {
       render: (row) => (
         <button
           onClick={() =>
-            navigate(`/visitors/${row.visitorId}`)
+            navigate(`/visits/${row.id}`)
           }
           className="p-2 rounded-lg hover:bg-gray-100"
         >
@@ -94,19 +237,25 @@ function Visits() {
   return (
     <div>
 
+      {/* HEADER */}
+
       <div className="mb-6">
 
         <h1 className="text-3xl font-bold">
-          Visits
+          Generated Passes
         </h1>
 
         <p className="text-gray-500 mt-1">
-          Track all visitor entries and exits
+          View all generated visitor passes
         </p>
 
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+      {/* FILTERS */}
+
+      <div className="bg-white rounded-2xl p-4 shadow-sm mb-6 flex gap-4 items-end">
+
+        {/* SEARCH */}
 
         <div className="relative w-80">
 
@@ -116,13 +265,39 @@ function Visits() {
           />
 
           <Input
-            placeholder="Search visits..."
+            placeholder="Search visitor..."
             className="pl-10"
           />
 
         </div>
 
+        {/* FROM DATE */}
+
+        <div>
+
+          <label className="text-sm font-medium text-gray-700 mb-2 block">
+            From Date
+          </label>
+
+          <Input type="date" />
+
+        </div>
+
+        {/* TO DATE */}
+
+        <div>
+
+          <label className="text-sm font-medium text-gray-700 mb-2 block">
+            To Date
+          </label>
+
+          <Input type="date" />
+
+        </div>
+
       </div>
+
+      {/* TABLE */}
 
       <Table
         columns={columns}

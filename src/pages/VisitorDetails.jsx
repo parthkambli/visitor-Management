@@ -1,18 +1,18 @@
 import {
   User,
-  Building2,
   Phone,
-  Mail,
   ShieldCheck,
-  CalendarDays,
   ClipboardList,
   Plus,
+  Eye,
 } from "lucide-react";
 
-import { useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 import Card from "../components/ui/Card";
-import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Table from "../components/ui/Table";
 
@@ -22,58 +22,65 @@ import mockVisits from "../data/mockVisits";
 function VisitorDetails() {
   const { id } = useParams();
 
-  const visitor = mockVisitors.find(
-    (item) => item.id === Number(id)
-  );
+  const navigate = useNavigate();
 
-  const visitorVisits = mockVisits.filter(
-    (visit) => visit.visitorId === visitor.id
-  );
+const visitor = mockVisitors.find(
+  (item) => item.id === Number(id)
+);
 
-  const activeVisit = visitorVisits.find(
-    (visit) => visit.status === "Checked In"
+if (!visitor) {
+  return (
+    <div className="text-center py-20">
+      Visitor not found
+    </div>
   );
+}
 
+const visitorVisits =
+  mockVisits.filter(
+    (visit) =>
+      visit.visitorId === visitor.id
+  );
   const columns = [
     {
-      title: "Purpose",
-      key: "purpose",
+      title: "Pass ID",
+      key: "passId",
     },
 
     {
-      title: "Host",
-      key: "host",
+      title: "Employee To Meet",
+      key: "employeeToMeet",
     },
 
     {
-      title: "Check In",
-      key: "checkIn",
+      title: "Visit Date",
+      key: "visitDate",
     },
 
     {
-      title: "Check Out",
-      key: "checkOut",
+      title: "Visit Time",
+      key: "visitTime",
     },
 
     {
-      title: "Status",
-      key: "status",
+      title: "Generated At",
+      key: "createdAt",
+    },
 
-      render: (row) => {
-        const variantMap = {
-          "Checked In": "success",
-          "Checked Out": "info",
-          Pending: "warning",
-        };
+    {
+      title: "Actions",
+      key: "actions",
 
-        return (
-          <Badge
-            variant={variantMap[row.status]}
-          >
-            {row.status}
-          </Badge>
-        );
-      },
+      render: (row) => (
+        <button
+          onClick={() =>
+            navigate(`/visits/${row.id}`)
+          }
+          className="p-2 rounded-lg hover:bg-gray-100"
+        >
+          <Eye size={18} />
+        </button>
+      ),
     },
   ];
 
@@ -87,154 +94,100 @@ function VisitorDetails() {
         <div>
 
           <h1 className="text-3xl font-bold">
-            Visitor Profile
+            Visitor Details
           </h1>
 
           <p className="text-gray-500 mt-1">
-            Complete visitor information and visit history
+            Visitor profile and pass history
           </p>
 
         </div>
 
-        <Button className="flex items-center gap-2">
+        <Button
+          className="flex items-center gap-2"
+          onClick={() =>
+            navigate("/visitor-pass")
+          }
+        >
 
           <Plus size={18} />
 
-          New Visit
+          Generate Pass
 
         </Button>
 
       </div>
 
-      {/* MAIN GRID */}
+      {/* TOP GRID */}
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-12 gap-6">
 
-        {/* LEFT SECTION */}
+        {/* PROFILE */}
 
-        <div className="col-span-2 space-y-6">
-
-          {/* PROFILE CARD */}
+        <div className="col-span-8">
 
           <Card>
 
-            <div className="flex items-start gap-6">
+            <div className="flex gap-6">
 
-              <div className="w-28 h-28 rounded-2xl bg-gray-300 flex items-center justify-center">
+              {/* PHOTO */}
 
-                <User size={50} />
+              <div className="w-32 h-32 rounded-2xl overflow-hidden bg-gray-200 flex items-center justify-center">
+
+                {visitor.photo ? (
+
+                  <img
+                    src={visitor.photo}
+                    alt={visitor.name}
+                    className="w-full h-full object-cover"
+                  />
+
+                ) : (
+
+                  <User size={50} />
+
+                )}
 
               </div>
+
+              {/* DETAILS */}
 
               <div className="flex-1">
 
-                <div className="flex items-center justify-between">
-
-                  <div>
-
-                    <h2 className="text-2xl font-bold">
-                      {visitor.name}
-                    </h2>
-
-                    <p className="text-gray-500 mt-1">
-                      {visitor.company}
-                    </p>
-
-                  </div>
-
-                  {activeVisit ? (
-                    <Badge variant="success">
-                      Active Visit
-                    </Badge>
-                  ) : (
-                    <Badge variant="info">
-                      No Active Visit
-                    </Badge>
-                  )}
-
-                </div>
-
-                <div className="grid grid-cols-2 gap-5 mt-6">
-
-                  <div className="flex items-center gap-3">
-
-                    <Phone size={18} />
-
-                    <span>{visitor.phone}</span>
-
-                  </div>
-
-                  <div className="flex items-center gap-3">
-
-                    <Mail size={18} />
-
-                    <span>{visitor.email}</span>
-
-                  </div>
-
-                  <div className="flex items-center gap-3">
-
-                    <ShieldCheck size={18} />
-
-                    <span>{visitor.idProof}</span>
-
-                  </div>
-
-                  <div className="flex items-center gap-3">
-
-                    <ClipboardList size={18} />
-
-                    <span>{visitor.idNumber}</span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </Card>
-
-          {/* VISIT HISTORY */}
-
-          <Card>
-
-            <div className="flex items-center justify-between mb-6">
-
-              <div>
-
-                <h2 className="text-xl font-semibold">
-                  Visit History
+                <h2 className="text-3xl font-bold">
+                  {visitor.name}
                 </h2>
 
-                <p className="text-gray-500 text-sm mt-1">
-                  All visits associated with this visitor
+                <p className="text-gray-500 mt-1">
+                  {visitor.company}
                 </p>
+
+                <div className="flex items-center gap-3 mt-6">
+
+                <Phone size={18} />
+
+                <span>
+                  {visitor.phone}
+                </span>
+
+              </div>
 
               </div>
 
             </div>
-
-            <Table
-              columns={columns}
-              data={visitorVisits}
-            />
 
           </Card>
 
         </div>
 
-        {/* RIGHT SECTION */}
+        {/* STATS */}
 
-        <div className="space-y-6">
-
-          {/* STATS */}
+        <div className="col-span-4">
 
           <Card>
 
-            <h2 className="text-xl font-semibold mb-5">
-              Visitor Statistics
+            <h2 className="text-xl font-semibold mb-6">
+              Statistics
             </h2>
 
             <div className="space-y-5">
@@ -242,11 +195,13 @@ function VisitorDetails() {
               <div className="flex items-center justify-between">
 
                 <span className="text-gray-500">
-                  Total Visits
+                  Total Passes
                 </span>
 
-                <span className="font-bold text-xl">
-                  {visitorVisits.length}
+                <span className="text-2xl font-bold">
+                  {
+                    visitorVisits.length
+                  }
                 </span>
 
               </div>
@@ -258,23 +213,10 @@ function VisitorDetails() {
                 </span>
 
                 <span className="font-medium">
-                  {visitorVisits[0]?.checkIn || "--"}
-                </span>
-
-              </div>
-
-              <div className="flex items-center justify-between">
-
-                <span className="text-gray-500">
-                  Active Visits
-                </span>
-
-                <span className="font-medium">
                   {
-                    visitorVisits.filter(
-                      (visit) =>
-                        visit.status === "Checked In"
-                    ).length
+                    visitorVisits[
+                      visitorVisits.length - 1
+                    ]?.visitDate || "--"
                   }
                 </span>
 
@@ -284,87 +226,36 @@ function VisitorDetails() {
 
           </Card>
 
-          {/* ACTIVE VISIT */}
-
-          {activeVisit && (
-            <Card>
-
-              <h2 className="text-xl font-semibold mb-5">
-                Current Visit
-              </h2>
-
-              <div className="space-y-4">
-
-                <div className="flex justify-between">
-
-                  <span className="text-gray-500">
-                    Purpose
-                  </span>
-
-                  <span>
-                    {activeVisit.purpose}
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between">
-
-                  <span className="text-gray-500">
-                    Host
-                  </span>
-
-                  <span>
-                    {activeVisit.host}
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between">
-
-                  <span className="text-gray-500">
-                    Check In
-                  </span>
-
-                  <span>
-                    {activeVisit.checkIn}
-                  </span>
-
-                </div>
-
-              </div>
-
-            </Card>
-          )}
-
-          {/* QUICK ACTIONS */}
-
-          <Card>
-
-            <h2 className="text-xl font-semibold mb-5">
-              Quick Actions
-            </h2>
-
-            <div className="space-y-3">
-
-              <Button className="w-full">
-                Create New Visit
-              </Button>
-
-              <Button className="w-full bg-gray-300 hover:bg-gray-400 text-black">
-                Edit Visitor
-              </Button>
-
-              <Button className="w-full bg-red-500 hover:bg-red-600">
-                Blacklist Visitor
-              </Button>
-
-            </div>
-
-          </Card>
-
         </div>
 
       </div>
+
+      {/* PASS HISTORY */}
+
+      <Card className="mt-6">
+
+        <div className="flex items-center justify-between mb-6">
+
+          <div>
+
+            <h2 className="text-xl font-semibold">
+              Pass History
+            </h2>
+
+            <p className="text-gray-500 text-sm mt-1">
+              All generated passes for this visitor
+            </p>
+
+          </div>
+
+        </div>
+
+        <Table
+          columns={columns}
+          data={visitorVisits}
+        />
+
+      </Card>
 
     </div>
   );

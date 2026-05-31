@@ -6,7 +6,8 @@ import Dashboard from "../pages/Dashboard";
 import Visitors from "../pages/Visitors";
 import VisitorDetails from "../pages/VisitorDetails";
 import Visits from "../pages/Visits";
-import CheckIn from "../pages/CheckIn";
+import GeneratePass from "../pages/GeneratePass";
+import VisitPassDetails from "../pages/VisitPassDetails";
 import Settings from "../pages/Settings";
 
 function AppRoutes() {
@@ -32,8 +33,13 @@ function AppRoutes() {
         />
 
         <Route
-          path="checkin"
-          element={<CheckIn />}
+          path="visits/:id"
+          element={<VisitPassDetails />}
+        />
+
+        <Route
+          path="visitor-pass"
+          element={<GeneratePass />}
         />
 
         <Route

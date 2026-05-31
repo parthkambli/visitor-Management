@@ -26,23 +26,8 @@ function CreateVisitorModal({
         />
 
         <Input
-          label="Email Address"
-          placeholder="Enter email"
-        />
-
-        <Input
           label="Company"
           placeholder="Enter company"
-        />
-
-        <Input
-          label="ID Proof"
-          placeholder="Aadhar / PAN / Passport"
-        />
-
-        <Input
-          label="ID Number"
-          placeholder="Enter ID number"
         />
 
         <div className="flex justify-end gap-3 pt-4">

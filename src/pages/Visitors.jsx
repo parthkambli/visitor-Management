@@ -13,60 +13,71 @@ import Input from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import Badge from "../components/ui/Badge";
 
-import CreateVisitorModal from "../components/visitors/CreateVisitorModal";
+// import CreateVisitorModal from "../components/visitors/CreateVisitorModal";
 
 import mockVisitors from "../data/mockVisitors";
 import mockVisits from "../data/mockVisits";
 
 function Visitors() {
-  const [isModalOpen, setIsModalOpen] =
-    useState(false);
+  // const [isModalOpen, setIsModalOpen] =
+  //   useState(false);
 
-  const visitors = mockVisitors.map((visitor) => {
+const visitors = mockVisitors.map((visitor) => {
 
-    const visitorVisits = mockVisits.filter(
-      (visit) => visit.visitorId === visitor.id
-    );
+  const visitorVisits = mockVisits.filter(
+    (visit) => visit.visitorId === visitor.id
+  );
 
-    const totalVisits = visitorVisits.length;
+  const totalVisits =
+    visitorVisits.length;
 
-    const lastVisit =
-      visitorVisits[visitorVisits.length - 1];
+  const lastVisit =
+    visitorVisits[
+      visitorVisits.length - 1
+    ];
 
-    const activeVisit = visitorVisits.find(
-      (visit) => visit.status === "Checked In"
-    );
+  return {
+    ...visitor,
 
-    return {
-      ...visitor,
+    totalVisits,
 
-      totalVisits,
-
-      lastVisit:
-        lastVisit?.checkIn || "--",
-
-      activeStatus:
-        activeVisit
-          ? "Active"
-          : "Inactive",
-    };
-  });
+    lastVisit:
+      lastVisit?.visitDate || "--",
+  };
+});
   
   const navigate = useNavigate();
 
   const columns = [
+    {
+    title: "Photo",
+    key: "photo",
+
+    render: (row) => (
+
+      row.photo ? (
+
+        <img
+          src={row.photo}
+          alt={row.name}
+          className="w-12 h-12 rounded-xl object-cover"
+        />
+
+      ) : (
+
+        <div className="w-12 h-12 rounded-xl bg-gray-200" />
+
+      )
+
+    ),
+  },
   {
     title: "Visitor Name",
     key: "name",
   },
 
   {
-    title: "Company",
-    key: "company",
-  },
-
-  {
-    title: "Phone",
+    title: "Mobile Number",
     key: "phone",
   },
 
@@ -78,23 +89,6 @@ function Visitors() {
   {
     title: "Last Visit",
     key: "lastVisit",
-  },
-
-  {
-    title: "Status",
-    key: "activeStatus",
-
-    render: (row) => (
-      <Badge
-        variant={
-          row.activeStatus === "Active"
-            ? "success"
-            : "default"
-        }
-      >
-        {row.activeStatus}
-      </Badge>
-    ),
   },
 
   {
@@ -139,7 +133,7 @@ function Visitors() {
           </p>
         </div>
 
-        <Button
+        {/* <Button
           className="flex items-center gap-2"
           onClick={() =>
             setIsModalOpen(true)
@@ -147,7 +141,7 @@ function Visitors() {
         >
           <Plus size={18} />
           Add Visitor
-        </Button>
+        </Button> */}
 
       </div>
 
@@ -179,12 +173,12 @@ function Visitors() {
       />
 
       {/* MODAL */}
-          <CreateVisitorModal
+          {/* <CreateVisitorModal
             isOpen={isModalOpen}
             onClose={() =>
               setIsModalOpen(false)
             }
-          />
+          /> */}
 
     </div>
   );

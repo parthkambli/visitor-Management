@@ -26,8 +26,8 @@ function MainLayout() {
       icon: ClipboardList,
     },
     {
-      name: "Check In",
-      path: "/checkin",
+      name: "Visitor Pass",
+      path: "/visitor-pass",
       icon: UserPlus,
     },
     {
