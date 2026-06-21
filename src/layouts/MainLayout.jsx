@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
 
 import {
   LayoutDashboard,
@@ -9,6 +9,21 @@ import {
 } from "lucide-react";
 
 function MainLayout() {
+  const location = useLocation();
+
+  const pageTitles = {
+    "/": "Dashboard",
+    "/visitors": "Visitors",
+    "/visits": "Visits",
+    "/visitor-pass": "Generate Visitor Pass",
+    "/settings": "Settings",
+  };
+
+  const pageTitle = pageTitles[location.pathname]
+    || (location.pathname.startsWith("/visitors/") && "Visitor Details")
+    || (location.pathname.startsWith("/visits/") && "Pass Details")
+    || "Visitor Management System";
+
   const navItems = [
     {
       name: "Dashboard",
@@ -79,7 +94,7 @@ function MainLayout() {
         <header className="h-16 bg-white border-b px-6 flex items-center justify-between">
 
           <h2 className="text-xl font-semibold">
-            Visitor Management System
+            {pageTitle}
           </h2>
 
           <div className="text-sm text-gray-500">

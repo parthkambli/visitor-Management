@@ -14,135 +14,86 @@ function PassPreview({
   photo = "",
 }) {
   return (
-    <div className="bg-white border-2 border-black rounded-2xl p-4 w-full max-w-sm mx-auto">
+    <div className="bg-white border-2 border-black rounded-2xl p-2 w-full max-w-sm mx-auto">
 
       {/* HEADER */}
 
-      <div className="text-center border-b pb-4">
+      <div className="text-center pb-1">
 
         {companyLogo ? (
           <img
             src={companyLogo}
             alt="Company Logo"
-            className="w-16 h-16 object-contain mx-auto mb-3"
+            className="w-8 h-8 object-contain mx-auto"
           />
         ) : (
-          <div className="w-16 h-16 rounded-full bg-gray-200 mx-auto mb-3" />
+          <div className="w-8 h-8 rounded-full bg-gray-200 mx-auto" />
         )}
 
-        <h2 className="text-xl font-bold uppercase">
+        <h2 className="text-sm font-bold uppercase leading-tight">
           {companyName}
         </h2>
 
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-[10px] text-gray-500 leading-tight">
           Visitor Pass
         </p>
 
       </div>
 
-      {/* PASS ID */}
+      {/* PASS ID + PHOTO + DETAILS */}
 
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex items-center gap-2 mt-1">
 
-        <span className="text-gray-500 text-sm">
-          Pass ID
-        </span>
+        <div className="shrink-0">
 
-        <span className="font-bold text-lg">
-          #{passId}
-        </span>
-
-      </div>
-
-      {/* PHOTO */}
-
-      <div className="flex justify-center mt-4">
-
-        {photo ? (
-          <img
-            src={photo}
-            alt="Visitor"
-            className="w-28 h-28 rounded-xl object-cover border"
-          />
-        ) : (
-          <div className="w-28 h-28 rounded-xl bg-gray-200 border" />
-        )}
-
-      </div>
-
-      {/* DETAILS */}
-
-      <div className="mt-4 space-y-4 text-sm">
-
-        <div className="flex justify-between gap-4">
-
-          <span className="text-gray-500">
-            Visitor
-          </span>
-
-          <span className="font-medium text-right">
-            {visitorName}
-          </span>
+          {photo ? (
+            <img
+              src={photo}
+              alt="Visitor"
+              className="w-12 h-12 rounded-xl object-cover border"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-xl bg-gray-200 border" />
+          )}
 
         </div>
 
-        <div className="flex justify-between gap-4">
+        <div className="flex-1 space-y-0 text-[10px] min-w-0">
 
-          <span className="text-gray-500">
-            Company
-          </span>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Pass</span>
+            <span className="font-semibold">#{passId}</span>
+          </div>
 
-          <span className="font-medium text-right">
-            {company}
-          </span>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Visitor</span>
+            <span className="font-medium truncate">{visitorName}</span>
+          </div>
 
-        </div>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Company</span>
+            <span className="font-medium truncate">{company}</span>
+          </div>
 
-        <div className="flex justify-between gap-4">
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Mobile</span>
+            <span className="font-medium truncate">{mobileNumber}</span>
+          </div>
 
-          <span className="text-gray-500">
-            Mobile
-          </span>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Emp</span>
+            <span className="font-medium truncate">{employeeToMeet}</span>
+          </div>
 
-          <span className="font-medium text-right">
-            {mobileNumber}
-          </span>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Date</span>
+            <span className="font-medium">{visitDate}</span>
+          </div>
 
-        </div>
-
-        <div className="flex justify-between gap-4">
-
-          <span className="text-gray-500">
-            Employee
-          </span>
-
-          <span className="font-medium text-right">
-            {employeeToMeet}
-          </span>
-
-        </div>
-
-        <div className="flex justify-between gap-4">
-
-          <span className="text-gray-500">
-            Date
-          </span>
-
-          <span className="font-medium text-right">
-            {visitDate}
-          </span>
-
-        </div>
-
-        <div className="flex justify-between gap-4">
-
-          <span className="text-gray-500">
-            Time
-          </span>
-
-          <span className="font-medium text-right">
-            {visitTime}
-          </span>
+          <div className="flex justify-between gap-1">
+            <span className="text-gray-500 shrink-0">Time</span>
+            <span className="font-medium">{visitTime}</span>
+          </div>
 
         </div>
 
@@ -150,30 +101,18 @@ function PassPreview({
 
       {/* SIGNATURES */}
 
-      <div className="grid grid-cols-3 gap-4 mt-10 text-center text-xs">
+      <div className="grid grid-cols-3 gap-1 mt-1 text-center text-[8px]">
 
         <div>
-
-          <div className="border-t pt-2">
-            Employee
-          </div>
-
+          <div className="border-t pt-0.5">Employee</div>
         </div>
 
         <div>
-
-          <div className="border-t pt-2">
-            Visitor
-          </div>
-
+          <div className="border-t pt-0.5">Visitor</div>
         </div>
 
         <div>
-
-          <div className="border-t pt-2">
-            Security
-          </div>
-
+          <div className="border-t pt-0.5">Security</div>
         </div>
 
       </div>

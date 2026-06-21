@@ -1,28 +1,21 @@
-import { useState } from "react";
-
 import {
   Search,
-  Plus,
   Eye,
   Pencil,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../Components/UI/Button";
-import Input from "../components/ui/Input";
-import Table from "../components/ui/Table";
-import Badge from "../components/ui/Badge";
-
-// import CreateVisitorModal from "../components/visitors/CreateVisitorModal";
+import Input from "../Components/UI/Input";
+import Table from "../Components/UI/Table";
 
 import mockVisitors from "../data/mockVisitors";
 import mockVisits from "../data/mockVisits";
 
 function Visitors() {
-  // const [isModalOpen, setIsModalOpen] =
-  //   useState(false);
+  const navigate = useNavigate();
 
-const visitors = mockVisitors.map((visitor) => {
+  const visitors = mockVisitors.map((visitor) => {
 
   const visitorVisits = mockVisits.filter(
     (visit) => visit.visitorId === visitor.id
@@ -44,9 +37,7 @@ const visitors = mockVisitors.map((visitor) => {
     lastVisit:
       lastVisit?.visitDate || "--",
   };
-});
-  
-  const navigate = useNavigate();
+  });
 
   const columns = [
     {
@@ -98,18 +89,22 @@ const visitors = mockVisitors.map((visitor) => {
     render: (row) => (
       <div className="flex gap-2">
 
-        <button
+        <Button
           onClick={() =>
             navigate(`/visitors/${row.id}`)
           }
           className="p-2 rounded-lg hover:bg-gray-100"
+          aria-label="View visitor details"
         >
           <Eye size={18} />
-        </button>
+        </Button>
 
-        <button className="p-2 rounded-lg hover:bg-gray-100">
+        <Button
+          className="p-2 rounded-lg hover:bg-gray-100"
+          aria-label="Edit visitor"
+        >
           <Pencil size={18} />
-        </button>
+        </Button>
 
       </div>
     ),
@@ -121,29 +116,9 @@ const visitors = mockVisitors.map((visitor) => {
 
       {/* HEADER */}
 
-      <div className="flex items-center justify-between mb-6">
-
-        <div>
-          <h1 className="text-3xl font-bold">
-            Visitors
-          </h1>
-
-          <p className="text-gray-500 mt-1">
-            Manage all visitor records
-          </p>
-        </div>
-
-        {/* <Button
-          className="flex items-center gap-2"
-          onClick={() =>
-            setIsModalOpen(true)
-          }
-        >
-          <Plus size={18} />
-          Add Visitor
-        </Button> */}
-
-      </div>
+      <p className="text-gray-500 mb-6">
+        Manage all visitor records
+      </p>
 
       {/* FILTERS */}
 
@@ -159,6 +134,7 @@ const visitors = mockVisitors.map((visitor) => {
           <Input
             placeholder="Search visitors..."
             className="pl-10"
+            aria-label="Search visitors"
           />
 
         </div>
@@ -171,14 +147,6 @@ const visitors = mockVisitors.map((visitor) => {
         columns={columns}
         data={visitors}
       />
-
-      {/* MODAL */}
-          {/* <CreateVisitorModal
-            isOpen={isModalOpen}
-            onClose={() =>
-              setIsModalOpen(false)
-            }
-          /> */}
 
     </div>
   );

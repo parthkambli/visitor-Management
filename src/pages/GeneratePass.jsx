@@ -1,14 +1,10 @@
 import { useState } from "react";
 
-import CreatableSelect from "react-select/creatable";
+import Card from "../Components/UI/Card";
+import Button from "../Components/UI/Button";
 
-import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
-
-import GeneratePassForm from "../components/pass/GeneratePassForm";
-import PassPreview from "../components/pass/PassPreview";
-
-import mockVisitors from "../data/mockVisitors";
+import GeneratePassForm from "../Components/Pass/GeneratePassForm";
+import PassPreview from "../Components/Pass/PassPreview";
 
 function GeneratePass() {
   const [selectedVisitor, setSelectedVisitor] =
@@ -27,51 +23,18 @@ function GeneratePass() {
       visitTime: "",
     });
 
-  const visitorOptions =
-    mockVisitors.map((visitor) => ({
-      value: visitor.id,
-      label: `${visitor.name} (${visitor.phone})`,
-      visitor,
-    }));
-
-  const handleVisitorSelect = (
-    selected
-  ) => {
-    const visitor = selected?.visitor;
-
-    setSelectedVisitor(visitor);
-
-    if (visitor) {
-      setFormData((prev) => ({
-        ...prev,
-
-        visitorName: visitor.name,
-        company: visitor.company,
-        mobileNumber: visitor.phone,
-      }));
-    }
-  };
-
   return (
     <div>
 
       {/* HEADER */}
 
-      <div className="mb-4">
-
-        <h1 className="text-3xl font-bold">
-          Generate Visitor Pass
-        </h1>
-
-        <p className="text-gray-500 mt-1">
-          Create and print visitor entry passes
-        </p>
-
-      </div>
+      <p className="text-gray-500 text-sm mb-2">
+        Create and print visitor entry passes
+      </p>
 
       {/* MAIN GRID */}
 
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-3">
 
         {/* LEFT SECTION */}
 
@@ -80,7 +43,7 @@ function GeneratePass() {
 
           {/* FORM */}
 
-          <Card>
+          <Card className="p-4">
 
           <GeneratePassForm
             formData={formData}
@@ -90,7 +53,7 @@ function GeneratePass() {
             setCapturedPhoto={setCapturedPhoto}
           />
 
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-end gap-3 mt-4">
 
               <Button className="bg-gray-300 hover:bg-gray-400 text-black">
                 Reset
@@ -112,9 +75,9 @@ function GeneratePass() {
 
           {/* PASS PREVIEW */}
 
-          <Card>
+          <Card className="p-3">
 
-            <h2 className="text-xl font-semibold mb-3">
+            <h2 className="text-base font-semibold mb-2">
               Pass Preview
             </h2>
 

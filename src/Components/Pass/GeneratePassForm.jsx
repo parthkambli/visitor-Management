@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import Webcam from "react-webcam";
 
-import Input from "../ui/Input";
-import Button from "../ui/Button";
+import Input from "../UI/Input";
+import Button from "../UI/Button";
 
 import mockVisitors from "../../data/mockVisitors";
 
@@ -62,10 +62,10 @@ function GeneratePassForm({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-3">
       {/* LEFT SIDE */}
 
-      <div className="col-span-2 space-y-5">
+      <div className="col-span-2 space-y-2">
         {/* VISITOR */}
 
         <div>
@@ -110,7 +110,7 @@ function GeneratePassForm({
 
         {/* DATE + TIME */}
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-3">
           <Input
             label="Date"
             type="date"
@@ -132,19 +132,19 @@ function GeneratePassForm({
       {/* RIGHT SIDE */}
 
       <div>
-        <div className="border-2 border-dashed border-gray-300 rounded-2xl min-h-[320px] flex flex-col items-center justify-center p-4">
+        <div className="border-2 border-dashed border-gray-300 rounded-2xl min-h-[120px] flex flex-col items-center justify-center p-2">
           {capturedPhoto ? (
             <img
               src={capturedPhoto}
               alt="Visitor"
-              className="w-40 h-40 rounded-2xl object-cover"
+              className="w-20 h-20 rounded-2xl object-cover"
             />
           ) : (
-            <div className="w-40 h-40 rounded-2xl bg-gray-200" />
+            <div className="w-20 h-20 rounded-2xl bg-gray-200" />
           )}
 
           <Button
-            className=" my-4"
+            className="my-2"
             onClick={() =>
               setShowCamera(true)
             }
@@ -152,13 +152,13 @@ function GeneratePassForm({
             Capture Photo
           </Button>
 
-          <p className="text-sm text-gray-400 mt-3 text-center">
+          <p className="text-xs text-gray-400 text-center">
             Photo preview after capture
           </p>
         </div>
 
         {showCamera && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-2 space-y-2">
             <Webcam
               ref={webcamRef}
               screenshotFormat="image/jpeg"

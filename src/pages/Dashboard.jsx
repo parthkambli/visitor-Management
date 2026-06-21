@@ -1,5 +1,5 @@
-import Card from "../components/ui/Card";
-import Table from "../components/ui/Table";
+import Card from "../Components/UI/Card";
+import Table from "../Components/UI/Table";
 
 import mockVisitors from "../data/mockVisitors";
 import mockVisits from "../data/mockVisits";
@@ -126,17 +126,9 @@ const cards = [
 
       {/* PAGE HEADER */}
 
-      <div className="mb-6">
-
-        <h1 className="text-3xl font-bold">
-          Dashboard
-        </h1>
-
-        <p className="text-gray-500 mt-1">
-          Overview of visitors and visit activity
-        </p>
-
-      </div>
+      <p className="text-gray-500 mb-6">
+        Overview of visitors and visit activity
+      </p>
 
       {/* SUMMARY CARDS */}
 
@@ -270,7 +262,7 @@ const cards = [
 
         <div className="h-72 rounded-2xl bg-gray-50 border flex items-center justify-center text-gray-400">
 
-          Chart will be added after backend integration
+          Chart coming soon
 
         </div>
 

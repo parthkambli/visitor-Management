@@ -1,20 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   Printer,
   ArrowLeft,
 } from "lucide-react";
 
-import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
+import Button from "../Components/UI/Button";
+import Card from "../Components/UI/Card";
 
-import PassPreview from "../components/pass/PassPreview";
+import PassPreview from "../Components/Pass/PassPreview";
 
 import mockVisitors from "../data/mockVisitors";
 import mockVisits from "../data/mockVisits";
 
 function VisitPassDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const visit = mockVisits.find(
     (v) => v.id === Number(id)
@@ -39,21 +40,22 @@ function VisitPassDetails() {
 
       <div className="flex items-center justify-between mb-6">
 
-        <div>
-
-          <h1 className="text-3xl font-bold">
-            Pass Details
-          </h1>
-
-          <p className="text-gray-500 mt-1">
-            View generated visitor pass
-          </p>
-
-        </div>
+        <p className="text-gray-500">
+          View generated visitor pass
+        </p>
 
         <div className="flex gap-3">
 
-          <Button className="bg-gray-300 hover:bg-gray-400 text-black flex items-center gap-2">
+          <Button
+            className="bg-gray-300 hover:bg-gray-400 text-black flex items-center gap-2"
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate("/visits");
+              }
+            }}
+          >
 
             <ArrowLeft size={18} />
 

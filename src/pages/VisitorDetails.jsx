@@ -1,8 +1,6 @@
 import {
   User,
   Phone,
-  ShieldCheck,
-  ClipboardList,
   Plus,
   Eye,
 } from "lucide-react";
@@ -12,9 +10,9 @@ import {
   useParams,
 } from "react-router-dom";
 
-import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
-import Table from "../components/ui/Table";
+import Card from "../Components/UI/Card";
+import Button from "../Components/UI/Button";
+import Table from "../Components/UI/Table";
 
 import mockVisitors from "../data/mockVisitors";
 import mockVisits from "../data/mockVisits";
@@ -72,14 +70,15 @@ const visitorVisits =
       key: "actions",
 
       render: (row) => (
-        <button
+        <Button
           onClick={() =>
             navigate(`/visits/${row.id}`)
           }
           className="p-2 rounded-lg hover:bg-gray-100"
+          aria-label="View pass details"
         >
           <Eye size={18} />
-        </button>
+        </Button>
       ),
     },
   ];
@@ -91,17 +90,9 @@ const visitorVisits =
 
       <div className="flex items-center justify-between mb-6">
 
-        <div>
-
-          <h1 className="text-3xl font-bold">
-            Visitor Details
-          </h1>
-
-          <p className="text-gray-500 mt-1">
-            Visitor profile and pass history
-          </p>
-
-        </div>
+        <p className="text-gray-500">
+          Visitor profile and pass history
+        </p>
 
         <Button
           className="flex items-center gap-2"

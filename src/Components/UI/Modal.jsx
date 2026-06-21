@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 function Modal({
   isOpen,
   onClose,
@@ -11,12 +13,13 @@ function Modal({
 
       <div className="bg-white rounded-2xl w-full max-w-lg p-6 relative">
 
-        <button
+        <Button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-black"
+          className="absolute top-4 right-4 text-gray-500 hover:text-black !p-1 !min-h-0 !min-w-0 !bg-transparent"
+          aria-label="Close"
         >
           ✕
-        </button>
+        </Button>
 
         {title && (
           <h2 className="text-2xl font-bold mb-6">

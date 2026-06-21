@@ -3,7 +3,7 @@ import {
   Upload,
 } from "lucide-react";
 
-import Button from "../ui/Button";
+import Button from "../UI/Button";
 
 function WebcamCapture() {
   return (

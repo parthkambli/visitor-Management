@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import Card from "../Components/UI/Card";
+import Input from "../Components/UI/Input";
+import Button from "../Components/UI/Button";
 
 function Settings() {
 
@@ -11,40 +11,104 @@ function Settings() {
     setOrganizationName,
   ] = useState("");
 
+  const [passPrefix, setPassPrefix] =
+    useState("VIS");
+
+  const [startingNumber, setStartingNumber] =
+    useState("0001");
+
+  const [autoIncrement, setAutoIncrement] =
+    useState(true);
+
+  const [theme, setTheme] =
+    useState("Light");
+
+  const [primaryColor, setPrimaryColor] =
+    useState("#3b82f6");
+
+  const [secondaryColor, setSecondaryColor] =
+    useState("#6b7280");
+
+  const [message, setMessage] =
+    useState("");
+
   useEffect(() => {
 
     const loadSettings =
       async () => {
 
-        const name =
-          await window.electronAPI.getOrganizationName();
+        if (!window.electronAPI) return;
 
-        setOrganizationName(
-          name
-        );
+        try {
+
+          const name =
+            await window.electronAPI.getOrganizationName();
+
+          setOrganizationName(
+            name
+          );
+
+        } catch (err) {
+          console.error(
+            "Failed to load organization name",
+            err
+          );
+        }
       };
 
     loadSettings();
 
   }, []);
 
-  useEffect(() => {
-    console.log(
-      window.electronAPI
-    );
-  }, []);
-
   const saveSettings =
   async () => {
 
-    await window.electronAPI
-      .saveOrganizationName(
-        organizationName
+    if (!window.electronAPI) {
+
+      setMessage(
+        "Settings saved (simulated)"
       );
 
-    alert(
-      "Organization Name Saved"
-    );
+      setTimeout(
+        () => setMessage(""),
+        3000
+      );
+
+      return;
+    }
+
+    try {
+
+      await window.electronAPI
+        .saveOrganizationName(
+          organizationName
+        );
+
+      setMessage(
+        "Settings saved successfully"
+      );
+
+      setTimeout(
+        () => setMessage(""),
+        3000
+      );
+
+    } catch (err) {
+
+      console.error(
+        "Failed to save settings",
+        err
+      );
+
+      setMessage(
+        "Failed to save settings"
+      );
+
+      setTimeout(
+        () => setMessage(""),
+        3000
+      );
+    }
   };
 
   return (
@@ -52,17 +116,9 @@ function Settings() {
 
       {/* PAGE HEADER */}
 
-      <div className="mb-6">
-
-        <h1 className="text-3xl font-bold">
-          Settings
-        </h1>
-
-        <p className="text-gray-500 mt-1">
-          Configure organization, pass settings, appearance and backups
-        </p>
-
-      </div>
+      <p className="text-gray-500 mb-6">
+        Configure organization, pass settings and appearance
+      </p>
 
       <div className="grid grid-cols-12 gap-6">
 
@@ -135,11 +191,19 @@ function Settings() {
 
               <Input
                 label="Pass Prefix"
+                value={passPrefix}
+                onChange={(e) =>
+                  setPassPrefix(e.target.value)
+                }
                 placeholder="VIS"
               />
 
               <Input
                 label="Starting Number"
+                value={startingNumber}
+                onChange={(e) =>
+                  setStartingNumber(e.target.value)
+                }
                 placeholder="0001"
               />
 
@@ -151,7 +215,10 @@ function Settings() {
 
                 <input
                   type="checkbox"
-                  defaultChecked
+                  checked={autoIncrement}
+                  onChange={(e) =>
+                    setAutoIncrement(e.target.checked)
+                  }
                 />
 
                 <span>
@@ -169,7 +236,7 @@ function Settings() {
               </p>
 
               <p className="text-2xl font-bold">
-                VIS-0001
+                {passPrefix}-{startingNumber}
               </p>
 
             </div>
@@ -194,11 +261,21 @@ function Settings() {
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="theme-select"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Theme
                 </label>
 
-                <select className="w-full border rounded-xl px-4 py-3">
+                <select
+                  id="theme-select"
+                  className="w-full border rounded-xl px-4 py-3"
+                  value={theme}
+                  onChange={(e) =>
+                    setTheme(e.target.value)
+                  }
+                >
 
                   <option>
                     Light
@@ -215,76 +292,20 @@ function Settings() {
               <Input
                 label="Primary Color"
                 type="color"
+                value={primaryColor}
+                onChange={(e) =>
+                  setPrimaryColor(e.target.value)
+                }
               />
 
               <Input
                 label="Secondary Color"
                 type="color"
+                value={secondaryColor}
+                onChange={(e) =>
+                  setSecondaryColor(e.target.value)
+                }
               />
-
-            </div>
-
-          </Card>
-
-          {/* DATA & BACKUP */}
-
-          <Card>
-
-            <h2 className="text-xl font-semibold mb-6">
-              Data & Backup
-            </h2>
-
-            <div className="space-y-5">
-
-              <label className="flex items-center gap-3">
-
-                <input
-                  type="checkbox"
-                  defaultChecked
-                />
-
-                <span>
-                  Enable Auto Backup
-                </span>
-
-              </label>
-
-              <div>
-
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Backup Frequency
-                </label>
-
-                <select className="w-full border rounded-xl px-4 py-3">
-
-                  <option>
-                    Daily
-                  </option>
-
-                  <option>
-                    Weekly
-                  </option>
-
-                  <option>
-                    Monthly
-                  </option>
-
-                </select>
-
-              </div>
-
-              <Input
-                label="Backup Location"
-                placeholder="C:\VisitorTracker\Backups"
-              />
-
-              <Button className="w-full">
-                Browse Folder
-              </Button>
-
-              <Button className="w-full">
-                Backup Database Now
-              </Button>
 
             </div>
 
@@ -350,6 +371,12 @@ function Settings() {
           >
             Save Settings
           </Button>
+
+          {message && (
+            <p className="text-sm text-green-600 font-medium mt-3 text-center">
+              {message}
+            </p>
+          )}
 
           </Card>
 
