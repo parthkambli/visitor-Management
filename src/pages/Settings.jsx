@@ -1,8 +1,52 @@
+import { useEffect, useState } from "react";
+
 import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
 function Settings() {
+
+  const [
+    organizationName,
+    setOrganizationName,
+  ] = useState("");
+
+  useEffect(() => {
+
+    const loadSettings =
+      async () => {
+
+        const name =
+          await window.electronAPI.getOrganizationName();
+
+        setOrganizationName(
+          name
+        );
+      };
+
+    loadSettings();
+
+  }, []);
+
+  useEffect(() => {
+    console.log(
+      window.electronAPI
+    );
+  }, []);
+
+  const saveSettings =
+  async () => {
+
+    await window.electronAPI
+      .saveOrganizationName(
+        organizationName
+      );
+
+    alert(
+      "Organization Name Saved"
+    );
+  };
+
   return (
     <div>
 
@@ -36,10 +80,16 @@ function Settings() {
 
             <div className="space-y-5">
 
-              <Input
-                label="Organization Name"
-                placeholder="Enter organization name"
-              />
+            <Input
+              label="Organization Name"
+              value={organizationName}
+              onChange={(e) =>
+                setOrganizationName(
+                  e.target.value
+                )
+              }
+              placeholder="Enter organization name"
+            />
 
               <div>
 
@@ -294,9 +344,12 @@ function Settings() {
 
           <Card>
 
-            <Button className="w-full">
-              Save Settings
-            </Button>
+          <Button
+            className="w-full"
+            onClick={saveSettings}
+          >
+            Save Settings
+          </Button>
 
           </Card>
 

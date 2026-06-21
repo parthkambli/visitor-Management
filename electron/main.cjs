@@ -2,6 +2,13 @@ const { app, BrowserWindow } = require("electron");
 
 const path = require("path");
 
+require("./database/db.cjs");
+
+const registerSettingsIpc =
+  require(
+    "./ipc/settingsIpc.cjs"
+  );
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1400,
@@ -9,6 +16,10 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(
+        __dirname,
+        "preload.cjs"
+      ),
     },
   });
 
@@ -16,6 +27,9 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+
+  registerSettingsIpc();
+
   createWindow();
 
   app.on("activate", () => {
