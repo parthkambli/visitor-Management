@@ -9,6 +9,16 @@ const registerSettingsIpc =
     "./ipc/settingsIpc.cjs"
   );
 
+const registerVisitorIpc =
+  require(
+    "./ipc/visitorIpc.cjs"
+  );
+
+const registerVisitIpc =
+  require(
+    "./ipc/visitIpc.cjs"
+  );
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1400,
@@ -29,6 +39,8 @@ function createWindow() {
 app.whenReady().then(() => {
 
   registerSettingsIpc();
+  registerVisitorIpc();
+  registerVisitIpc();
 
   createWindow();
 

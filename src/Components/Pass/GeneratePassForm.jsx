@@ -5,14 +5,13 @@ import Webcam from "react-webcam";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 
-import mockVisitors from "../../data/mockVisitors";
-
 function GeneratePassForm({
   formData,
   setFormData,
   setSelectedVisitor,
   capturedPhoto,
   setCapturedPhoto,
+  visitors = [],
 }) {
   const webcamRef = useRef(null);
 
@@ -20,7 +19,7 @@ function GeneratePassForm({
     useState(false);
 
   const visitorOptions =
-    mockVisitors.map((visitor) => ({
+    visitors.map((visitor) => ({
       value: visitor.id,
       label: visitor.name,
       visitor,
@@ -43,6 +42,14 @@ function GeneratePassForm({
         mobileNumber: visitor.phone,
       });
     }
+  };
+
+  const handleCreateVisitor = (inputValue) => {
+    setSelectedVisitor(null);
+    setFormData({
+      ...formData,
+      visitorName: inputValue,
+    });
   };
 
   const handleChange = (e) => {
@@ -76,6 +83,7 @@ function GeneratePassForm({
           <CreatableSelect
             options={visitorOptions}
             onChange={handleVisitorSelect}
+            onCreateOption={handleCreateVisitor}
             placeholder="Search or create visitor..."
           />
         </div>
