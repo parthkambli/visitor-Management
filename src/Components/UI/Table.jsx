@@ -1,13 +1,14 @@
 function Table({
   columns = [],
   data = [],
+  variant = "default",
 }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
 
       <table className="w-full border-collapse" aria-label="Data table">
 
-        <thead className="bg-gray-100">
+        <thead className={variant === "primary" ? "table-primary" : "bg-gray-100"}>
           <tr>
             {columns.map((column) => (
               <th

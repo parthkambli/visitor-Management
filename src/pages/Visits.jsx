@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Search, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/UI/Button";
+import FloatingInput from "../Components/UI/FloatingInput";
 import Table from "../Components/UI/Table";
-import Input from "../Components/UI/Input";
 
 function mapVisit(v) {
   return {
@@ -54,13 +54,13 @@ function Visits() {
       title: "Actions",
       key: "actions",
       render: (row) => (
-        <Button
-          onClick={() => navigate(`/visits/${row.id}`)}
-          className="p-2 rounded-lg hover:bg-gray-100"
-          aria-label="View pass details"
-        >
-          <Eye size={18} />
-        </Button>
+          <button
+            onClick={() => navigate(`/visits/${row.id}`)}
+            className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition"
+            aria-label="View pass details"
+          >
+            <Eye size={18} />
+          </button>
       ),
     },
   ];
@@ -70,11 +70,11 @@ function Visits() {
       <p className="text-gray-500 mb-6">View all generated visitor passes</p>
 
       <div className="bg-white rounded-2xl p-4 shadow-sm mb-6 flex gap-4 items-end">
-        <div className="relative w-80">
-          <Search size={18} className="absolute left-3 top-3.5 text-gray-400" />
-          <Input
-            placeholder="Search visitors..."
-            className="pl-10"
+        <div className="w-80">
+          <FloatingInput
+            label="Search"
+            placeholder="Search by name or phone..."
+            icon={Search}
             aria-label="Search visitors"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -82,24 +82,20 @@ function Visits() {
           />
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-2 block" htmlFor="from-date">
-            From Date
-          </label>
-          <Input
+        <div className="w-60">
+          <FloatingInput
             type="date"
+            label="From Date"
             id="from-date"
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
           />
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-2 block" htmlFor="to-date">
-            To Date
-          </label>
-          <Input
+        <div className="w-60">
+          <FloatingInput
             type="date"
+            label="To Date"
             id="to-date"
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
@@ -107,9 +103,22 @@ function Visits() {
         </div>
 
         <Button onClick={handleSearch}>Search</Button>
+        <Button
+          className="bg-gray-300 hover:bg-gray-400 text-black"
+          onClick={() => {
+            setQuery("");
+            setDateFrom("");
+            setDateTo("");
+            if (window.electronAPI) {
+              window.electronAPI.getVisits().then((data) => setVisits(data.map(mapVisit)));
+            }
+          }}
+        >
+          Clear
+        </Button>
       </div>
 
-      <Table columns={columns} data={visits} />
+      <Table columns={columns} data={visits} variant="primary" />
     </div>
   );
 }

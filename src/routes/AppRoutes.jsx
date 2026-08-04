@@ -8,6 +8,7 @@ import VisitorDetails from "../pages/VisitorDetails";
 import Visits from "../pages/Visits";
 import GeneratePass from "../pages/GeneratePass";
 import VisitPassDetails from "../pages/VisitPassDetails";
+import PrintPass from "../pages/PrintPass";
 import Settings from "../pages/Settings";
 
 function AppRoutes() {
@@ -48,6 +49,11 @@ function AppRoutes() {
         />
 
       </Route>
+
+      <Route
+        path="print/:id"
+        element={<PrintPass />}
+      />
     </Routes>
   );
 }

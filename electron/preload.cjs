@@ -42,4 +42,25 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   saveAllSettings: (data) =>
     ipcRenderer.invoke("settings:saveAll", data),
+
+  getPassSequence: () =>
+    ipcRenderer.invoke("pass:getSequence"),
+
+  checkLicense: () =>
+    ipcRenderer.invoke("license:check"),
+
+  activateLicense: (key) =>
+    ipcRenderer.invoke("license:activate", key),
+
+  deactivateLicense: () =>
+    ipcRenderer.invoke("license:deactivate"),
+
+  getHWID: () =>
+    ipcRenderer.invoke("license:hwid"),
+
+  printPass: (id) =>
+    ipcRenderer.invoke("print:pass", id),
+
+  printReady: () =>
+    ipcRenderer.send("print:ready"),
 });

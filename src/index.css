@@ -1,1 +1,148 @@
 @import "tailwindcss";
+
+:root {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: rgba(37, 99, 235, 0.08);
+  --color-primary-medium: rgba(37, 99, 235, 0.15);
+  --color-secondary: #6b7280;
+  --color-secondary-light: rgba(107, 114, 128, 0.08);
+  --color-primary-ring: rgba(37, 99, 235, 0.5);
+}
+
+input:focus,
+select:focus {
+  --tw-ring-color: var(--color-primary-ring) !important;
+  border-color: var(--color-primary) !important;
+}
+
+button.bg-gray-300 {
+  background-color: var(--color-secondary) !important;
+}
+
+button.bg-gray-300:hover {
+  opacity: 0.85;
+}
+
+thead.table-primary thead {
+  background-color: var(--color-primary-light) !important;
+}
+
+thead.table-primary th {
+  color: var(--color-primary) !important;
+}
+
+.sidebar-accent {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+}
+
+.header-accent {
+  border-bottom-color: var(--color-primary) !important;
+}
+
+.badge-primary {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+body.dark {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+body.dark .bg-white {
+  background-color: #1f2937;
+}
+
+body.dark .bg-gray-100 {
+  background-color: #111827;
+}
+
+body.dark .bg-gray-50 {
+  background-color: #111827;
+}
+
+body.dark .text-gray-500,
+body.dark .text-gray-600,
+body.dark .text-gray-700 {
+  color: #d1d5db;
+}
+
+body.dark .border-gray-300,
+body.dark .border-gray-200 {
+  border-color: #374151;
+}
+
+body.dark aside {
+  background-color: #0a0f1a;
+}
+
+body.dark select,
+body.dark input:not([type="color"]):not(.react-select__input input) {
+  background-color: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark select option {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark .react-select__control {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+body.dark .react-select__control:hover {
+  border-color: #6b7280 !important;
+}
+
+body.dark .react-select__menu {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+body.dark .react-select__menu-list {
+  background-color: #374151 !important;
+}
+
+body.dark .react-select__option {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+body.dark .react-select__option--is-focused,
+body.dark .react-select__option:hover {
+  background-color: #4b5563 !important;
+}
+
+body.dark .react-select__option--is-selected {
+  background-color: var(--color-primary) !important;
+  color: #f9fafb !important;
+}
+
+body.dark .react-select__single-value {
+  color: #f9fafb !important;
+}
+
+body.dark .react-select__placeholder {
+  color: #9ca3af !important;
+}
+
+body.dark .react-select__input input {
+  color: #f9fafb !important;
+  box-shadow: none !important;
+}
+
+body.dark .react-select__indicator-separator {
+  background-color: #4b5563 !important;
+}
+
+body.dark .react-select__dropdown-indicator svg {
+  color: #9ca3af !important;
+}
+
+body.dark .react-select__clear-indicator svg {
+  color: #9ca3af !important;
+}

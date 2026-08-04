@@ -1,7 +1,7 @@
 {
   "name": "visitor-management",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
@@ -10,7 +10,44 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "electron": "electron .",
-    "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\""
+    "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "db:clear": "node scripts/clear-db.cjs",
+    "package:win": "npm run build && electron-builder --win",
+    "package:dir": "npm run build && electron-builder --win --dir",
+    "generate-keypair": "node scripts/generate-keypair.cjs",
+    "generate-key": "node scripts/generate-key.cjs"
+  },
+  "build": {
+    "appId": "com.visitormanagement.app",
+    "productName": "Visitor Management",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/sqlite3/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "electron/license/public.key",
+        "to": "public.key"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Visitor Management"
+    }
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
@@ -21,6 +58,7 @@
     "react-router-dom": "^7.15.1",
     "react-select": "^5.10.2",
     "react-webcam": "^7.2.0",
+    "recharts": "^3.9.2",
     "sqlite3": "^6.0.1",
     "tailwindcss": "^4.3.0"
   },
@@ -31,6 +69,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "concurrently": "^9.2.1",
     "electron": "^42.1.0",
+    "electron-builder": "^26.15.3",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

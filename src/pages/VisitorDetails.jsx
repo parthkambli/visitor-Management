@@ -43,13 +43,13 @@ function VisitorDetails() {
       title: "Actions",
       key: "actions",
       render: (row) => (
-        <Button
+        <button
           onClick={() => navigate(`/visits/${row.id}`)}
-          className="p-2 rounded-lg hover:bg-gray-100"
+          className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition"
           aria-label="View pass details"
         >
           <Eye size={18} />
-        </Button>
+        </button>
       ),
     },
   ];
@@ -107,11 +107,11 @@ function VisitorDetails() {
       <Card className="mt-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-semibold">Pass History</h2>
+            <h2 className="text-xl font-semibold pl-3 border-l-4" style={{ borderColor: "var(--color-primary)" }}>Pass History</h2>
             <p className="text-gray-500 text-sm mt-1">All generated passes for this visitor</p>
           </div>
         </div>
-        <Table columns={columns} data={visits} />
+        <Table columns={columns} data={visits} variant="primary" />
       </Card>
     </div>
   );

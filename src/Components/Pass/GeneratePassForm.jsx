@@ -12,6 +12,7 @@ function GeneratePassForm({
   capturedPhoto,
   setCapturedPhoto,
   visitors = [],
+  errors = {},
 }) {
   const webcamRef = useRef(null);
 
@@ -24,6 +25,66 @@ function GeneratePassForm({
       label: visitor.name,
       visitor,
     }));
+
+  const isDark = document.body.classList.contains("dark");
+
+  const darkStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: "#374151",
+      borderColor: "#4b5563",
+      color: "#f9fafb",
+      boxShadow: "none",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#374151",
+      borderColor: "#4b5563",
+    }),
+    option: (base, { isFocused, isSelected }) => ({
+      ...base,
+      backgroundColor: isSelected ? "#2563eb" : isFocused ? "#4b5563" : "#374151",
+      color: "#f9fafb",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#f9fafb",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#9ca3af",
+    }),
+    input: (base) => ({
+      ...base,
+      color: "#f9fafb",
+    }),
+    indicatorSeparator: () => ({
+      backgroundColor: "#4b5563",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#9ca3af",
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      color: "#9ca3af",
+    }),
+  };
+
+  const selectStyles = isDark
+    ? {
+        ...(errors.visitorName
+          ? { control: (base) => ({ ...darkStyles.control(base), borderColor: "#f87171" }) }
+          : {}),
+        ...darkStyles,
+      }
+    : errors.visitorName
+      ? { control: (base) => ({ ...base, borderColor: "#f87171" }) }
+      : undefined;
+
+  const currentValue = formData.visitorName
+    ? visitorOptions.find(o => o.label === formData.visitorName) || { value: formData.visitorName, label: formData.visitorName }
+    : null;
 
   const handleVisitorSelect = (
     selected
@@ -53,9 +114,17 @@ function GeneratePassForm({
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "mobileNumber") {
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setFormData({ ...formData, mobileNumber: digitsOnly });
+      return;
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -82,10 +151,16 @@ function GeneratePassForm({
 
           <CreatableSelect
             options={visitorOptions}
+            value={currentValue}
             onChange={handleVisitorSelect}
             onCreateOption={handleCreateVisitor}
             placeholder="Search or create visitor..."
+            styles={selectStyles}
           />
+
+          {errors.visitorName && (
+            <p className="text-xs text-red-500 mt-1">{errors.visitorName}</p>
+          )}
         </div>
 
         {/* MOBILE */}
@@ -96,6 +171,7 @@ function GeneratePassForm({
           value={formData.mobileNumber}
           onChange={handleChange}
           placeholder="Enter mobile number"
+          error={errors.mobileNumber}
         />
 
         <Input
@@ -104,6 +180,7 @@ function GeneratePassForm({
           value={formData.company}
           onChange={handleChange}
           placeholder="Enter company"
+          error={errors.company}
         />
 
         {/* EMPLOYEE */}
@@ -114,6 +191,7 @@ function GeneratePassForm({
           value={formData.employeeToMeet}
           onChange={handleChange}
           placeholder="Enter employee name"
+          error={errors.employeeToMeet}
         />
 
         {/* DATE + TIME */}
@@ -125,6 +203,7 @@ function GeneratePassForm({
             name="visitDate"
             value={formData.visitDate}
             onChange={handleChange}
+            error={errors.visitDate}
           />
 
           <Input
@@ -133,6 +212,7 @@ function GeneratePassForm({
             name="visitTime"
             value={formData.visitTime}
             onChange={handleChange}
+            error={errors.visitTime}
           />
         </div>
       </div>
@@ -140,6 +220,7 @@ function GeneratePassForm({
       {/* RIGHT SIDE */}
 
       <div>
+        <p className="text-xs text-gray-400 mb-1 text-center">Photo (Optional)</p>
         <div className="border-2 border-dashed border-gray-300 rounded-2xl min-h-[120px] flex flex-col items-center justify-center p-2">
           {capturedPhoto ? (
             <img

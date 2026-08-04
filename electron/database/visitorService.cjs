@@ -1,6 +1,7 @@
-const db = require("./db.cjs");
+const { getDb } = require("./db.cjs");
 
 function getAll() {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.all(
       "SELECT * FROM visitors ORDER BY created_at DESC",
@@ -14,6 +15,7 @@ function getAll() {
 }
 
 function getById(id) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.get(
       "SELECT * FROM visitors WHERE id = ?",
@@ -27,6 +29,7 @@ function getById(id) {
 }
 
 function search(query) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     const pattern = `%${query}%`;
     db.all(
@@ -41,6 +44,7 @@ function search(query) {
 }
 
 function create(data) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     const { name, company, phone, photo } = data;
     db.run(
@@ -55,6 +59,7 @@ function create(data) {
 }
 
 function update(id, data) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     const { name, company, phone, photo } = data;
     db.run(
@@ -69,6 +74,7 @@ function update(id, data) {
 }
 
 function deleteVisitor(id) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.run(
       "DELETE FROM visitors WHERE id = ?",

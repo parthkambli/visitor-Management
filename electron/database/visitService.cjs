@@ -1,6 +1,7 @@
-const db = require("./db.cjs");
+const { getDb } = require("./db.cjs");
 
 function getAll() {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.all(
       `SELECT v.*, vis.name AS visitor_name, vis.company AS visitor_company, vis.phone AS visitor_phone, vis.photo AS visitor_photo
@@ -17,6 +18,7 @@ function getAll() {
 }
 
 function getById(id) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.get(
       `SELECT v.*, vis.name AS visitor_name, vis.company AS visitor_company, vis.phone AS visitor_phone, vis.photo AS visitor_photo
@@ -33,6 +35,7 @@ function getById(id) {
 }
 
 function getByVisitorId(visitorId) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.all(
       `SELECT v.*, vis.name AS visitor_name, vis.company AS visitor_company
@@ -50,6 +53,7 @@ function getByVisitorId(visitorId) {
 }
 
 function search(query, dateRange) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     let sql = `SELECT v.*, vis.name AS visitor_name, vis.company AS visitor_company, vis.phone AS visitor_phone, vis.photo AS visitor_photo
                FROM visits v
@@ -83,6 +87,7 @@ function search(query, dateRange) {
 }
 
 function create(data) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     const { pass_id, visitor_id, employee_to_meet, visit_date, visit_time, purpose, status } = data;
     db.run(
@@ -97,6 +102,7 @@ function create(data) {
 }
 
 function updateStatus(id, status) {
+  const db = getDb();
   return new Promise((resolve, reject) => {
     db.run(
       "UPDATE visits SET status = ? WHERE id = ?",
@@ -110,29 +116,28 @@ function updateStatus(id, status) {
 }
 
 function generatePassId() {
+  const db = getDb();
   return new Promise((resolve, reject) => {
-    db.serialize(() => {
-      db.get(
-        "SELECT prefix, current_number FROM pass_sequence WHERE id = 1",
-        [],
-        (err, row) => {
-          if (err) return reject(err);
-          if (!row) return reject(new Error("pass_sequence not found"));
+    db.get(
+      "SELECT s.pass_prefix, s.pass_start_number, p.current_number FROM settings s, pass_sequence p WHERE s.id = 1 AND p.id = 1",
+      [],
+      (err, row) => {
+        if (err) return reject(err);
 
-          const prefix = row.prefix;
-          const number = row.current_number;
-          const passId = `${prefix}-${String(number).padStart(4, "0")}`;
+        const prefix = row?.pass_prefix || "VIS";
+        const number = row?.current_number || row?.pass_start_number || 1;
+        const passId = `${prefix}-${String(number).padStart(4, "0")}`;
 
-          db.run(
-            "UPDATE pass_sequence SET current_number = current_number + 1 WHERE id = 1",
-            (err) => {
-              if (err) reject(err);
-              else resolve(passId);
-            }
-          );
-        }
-      );
-    });
+        db.run(
+          "UPDATE pass_sequence SET current_number = ?, prefix = ? WHERE id = 1",
+          [number + 1, prefix],
+          (err) => {
+            if (err) reject(err);
+            else resolve(passId);
+          }
+        );
+      }
+    );
   });
 }
 
